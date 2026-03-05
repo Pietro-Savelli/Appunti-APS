@@ -1,0 +1,58 @@
+\documentclass[12pt, a4paper]{article}
+
+% Pacchetti base per l'italiano e la formattazione
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+% Titolo e Autore
+\title{Schematizzazione: Casi d'Uso (Use Cases)}
+\author{Appunti basati sul materiale di Luca Cabibbo}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduzione ai Casi d'Uso}
+I casi d'uso sono storie scritte che descrivono il funzionamento del sistema che deve essere realizzato. Sono utili per:
+\begin{itemize}
+    \item Identificare e registrare i requisiti funzionali.
+    \item Favorire il coinvolgimento degli utenti grazie alla loro semplicità.
+\end{itemize}
+
+\section{Gli Attori}
+Un attore è qualcuno o qualcosa dotato di comportamento che interagisce con il sistema.
+\begin{itemize}
+    \item \textbf{Attore primario:} Usa il sistema per raggiungere un obiettivo.
+    \item \textbf{Attore finale:} Vuole raggiungere l'obiettivo, ma non necessariamente usa il sistema di persona.
+    \item \textbf{Attore di supporto:} Offre servizi al sistema.
+    \item \textbf{Attore fuori scena:} Ha interessi nel comportamento del sistema (es. fisco).
+\end{itemize}
+
+\section{Formati dei Casi d'Uso}
+I casi d'uso possono essere scritti con diversi livelli di dettaglio:
+\begin{itemize}
+    \item \textbf{Breve:} Un solo paragrafo per lo scenario di successo.
+    \item \textbf{Informale:} Scenario principale e qualche alternativa in formato testo discorsivo.
+    \item \textbf{Dettagliato:} Il formato più completo, diviso in sezioni rigorose.
+\end{itemize}
+
+\section{Anatomia del Formato Dettagliato}
+Un caso d'uso dettagliato comprende tipicamente:
+\begin{itemize}
+    \item \textbf{Stakeholder e Interessi:} Chi vuole cosa dal sistema.
+    \item \textbf{Pre-condizioni:} Cosa deve essere vero prima di iniziare.
+    \item \textbf{Scenario principale di successo:} Il percorso senza errori.
+    \item \textbf{Estensioni:} La gestione di tutti i casi alternativi e degli errori.
+    \item \textbf{Requisiti speciali:} Requisiti non funzionali correlati.
+\end{itemize}
+
+\section{Stile di Scrittura}
+\begin{itemize}
+    \item \textbf{Essenziale:} Si ignorano i dettagli della UI (es. "Il sistema autentica l'utente", non "L'utente clicca sul bottone login").
+    \item \textbf{Scatola Nera:} Si descrive cosa fa il sistema, non come è implementato internamente (es. si omette il database o l'SQL).
+\end{itemize}
+
+\end{document}
