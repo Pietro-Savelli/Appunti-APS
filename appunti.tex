@@ -7,68 +7,482 @@
 \usepackage{enumitem}
 \usepackage[margin=2cm]{geometry}
 \usepackage{graphicx}
-
-
-% Titolo e Autore
-\title{Schematizzazione: Casi d'Uso (Use Cases)}
-\author{Appunti basati sul materiale di Luca Cabibbo e sul libro }
-\date{\today}
+\usepackage{tikz}
+\usepackage{parskip}
 
 \begin{document}
 
-\maketitle
+% --- INIZIO PRIMA PAGINA ---
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    
+    % Titolo Principale
+    {\huge\bfseries Analisi e Progettazione del Software \par}
+    \vspace{1.5cm}
+    
+    % Sottotitolo
+    {\Large \textsc{Appunti Completi del Corso} \par}
+    \vspace{2.5cm}
+    
+    % Fonti
+    {\large \itshape 
+    Appunti basati sul materiale del Prof. Luca Cabibbo, \\
+    sul libro di testo e sulle spiegazioni delle lezioni. \par}
+    \vspace{2cm} % Spazio
+    
+    % --- LA TUA FIRMA QUI ---
+    {\Large \textbf{A cura di:} \\ \vspace{0.2cm} Pietro Savelli \par}
+    
+    \vfill % Spinge tutto il resto in fondo alla pagina
+    
+    % --- DISCLAIMER QUI ---
+    \rule{0.8\textwidth}{0.4pt} \\ % Crea una linea orizzontale sottile ed elegante
+    \vspace{0.3cm} % Piccolo spazio sotto la linea
+    {\footnotesize \textit{\textbf{Nota bene:} Questo documento è frutto di rielaborazione personale a scopo di studio. Non sostituisce in alcun modo il materiale didattico ufficiale, le slide del docente, né lo studio approfondito sul libro di testo.} \par}
+    \vspace{1cm} % Spazio prima dell'anno accademico
+    
+    % Anno Accademico
+    {\large \textbf{Anno Accademico 2025/2026} \par}
+    \vspace*{1cm}
+\end{titlepage}
+% --- FINE PRIMA PAGINA ---
 
-\section{Casi d'Uso}
-I casi d'uso sono storie scritte che descrivono il funzionamento del sistema che deve essere realizzato e come viene utilizzato dagli utenti (Attori). Sono utili per:
+% --- INDICE GENERALE ---
+\tableofcontents
+\newpage
+
+% Per far partire gli appunti veri e propri in una pagina nuova pulita:
+\newpage
+
+% --- INIZIO APPUNTI ---
+
+\section{Introduzione all'Ingegneria del Software}
+\subsection{Cos'è l'Ingegneria del Software?}
+L'Ingegneria del Software è la disciplina tecnologica ce gestionale che si occupa della creazione e manutenzione di applicazioni software in modo sistematico,
+controllato e quantificabile.
+
+A differenza della "semplice programmazione"(scrivere codice), l'ingegneria del software affronta il problema dello sviluppo su larga scala, dove:
 \begin{itemize}
-    \item Identificare e registrare i requisiti funzionali.
-    \item Favorire il coinvolgimento degli utenti grazie alla loro semplicità.
+    \item I sistemi sono complessi e composti da migliaia di righe di codice.
+    \item Il lavoro è svolto in \textbf{team} (spesso numerosi)
+    \item Il software ha una vita lunga e subisce continui cambiamenti nel tempo(\textit{manutenzione ed evoluzione}).
 \end{itemize}
 
-% --- INIZIO INSERIMENTO IMMAGINE ---
-\begin{figure}[h] % [h] suggerisce a LaTeX di mettere l'immagine "qui" (here)
+\subsection{I Fondamenti dell'Ingegneria del Software}
+Per gestire la complessità dello sviluppo su larga scala, l'Ingegneria del Software si struttura su tre elementi fondamentali:
+\begin{enumerate}
+    \item \textbf{Metodi:} Le tecniche usate per costruire il software. L'approccio principale del cosrso è la progettazione orientata agli oggetti, supportata dall'\textbf{UML (Unified Modeling Language)}. L'UML non è un linguaggio di programmazione, ma lo standard visivo universale usato per disegnare, specificare e documentare l'architettura di un sistema prima di scriverne il codice.
+    \item \textbf{Processi:} L'organizzazione delle attività nel tempo (es. modelli di ciclo di vita, sviluppo Agile).
+    \item \textbf{Strumenti:} I supporti automatici o semi-automatici per i metodi e i processi (es. IDE, Git, e gli stessi strumenti per disegnare UML).
+\end{enumerate}
+
+\subsection{Qualità del Software}
+L'obiettivo finale è produrre software di alta qualità. La qualità non è un concetto astratto, ma si misura attraverso vari attributi, tra cui:
+\begin{itemize}
+    \item \textbf{Correttezza:} Il software fa esattamente ciò che è specificato nei requisiti.
+    \item \textbf{Affidabilità:} Il software non fallisce durante l'esecuzione e gestisce bene gli errori.
+    \item \textbf{Manutenibilità:} La facilità con cui è possibile trovare e correggere bug o aggiungere nuove funzionalità. (Questo è spesso il costo maggiore nel ciclo di vita di un software).
+    \item \textbf{Usabilità:} La facilità di utilizzo da parte dell'utente finale.
+\end{itemize}
+
+\subsection{Il Paradigma Orientato agli Oggetti: OOA, OOD e OOP}
+Nello sviluppo del software moderno, l'approccio prevalente per gestire la complessità è il \textbf{Paradigma Orientato agli Oggetti (Object-Oriented)}. Questo approccio non riguarda solo la scrittura del codice, ma l'intero ciclo di sviluppo, e si divide in tre macro-fasi logiche fondamentali:
+
+\begin{itemize}
+    \item \textbf{OOA (Object-Oriented Analysis - Analisi Orientata agli Oggetti):} È la fase della \textit{scoperta} e dell'indagine. L'obiettivo è comprendere il dominio del problema (il mondo reale) invece che la soluzione informatica. Ci si concentra sul trovare e descrivere gli oggetti o i concetti chiave del dominio (es. in un negozio: \textit{Cassa, Cliente, Articolo}). \\
+    \textbf{Domanda chiave:} \textit{Cosa deve fare il sistema? Quali sono i concetti del mondo reale coinvolti?}
+    
+    \item \textbf{OOD (Object-Oriented Design - Progettazione Orientata agli Oggetti):} È la fase dell'\textit{invenzione} e della soluzione logica. Partendo dai concetti individuati nell'OOA, si definiscono gli oggetti software (le classi) e si stabilisce \textbf{come} questi collaborano tra loro per soddisfare i requisiti. Si iniziano a definire responsabilità, attributi e metodi. \\
+    \textbf{Domanda chiave:} \textit{Come realizzo il sistema? Come collaborano gli oggetti software?}
+    
+    \item \textbf{OOP (Object-Oriented Programming - Programmazione Orientata agli Oggetti):} È la fase dell'\textit{implementazione}. I progetti e i diagrammi realizzati nell'OOD vengono tradotti fisicamente in codice sorgente utilizzando un linguaggio orientato agli oggetti (come Java, C++ o C\#).
+\end{itemize}
+
+\subsubsection*{La Collaborazione tra OOA, OOD e OOP}
+Queste tre fasi non sono compartimenti stagni, ma rappresentano un \textbf{flusso continuo} in cui i concetti vengono progressivamente raffinati. La forza del paradigma Object-Oriented è che si usa lo stesso "linguaggio mentale" (gli oggetti) dall'inizio alla fine: un concetto del mondo reale (Analisi) ispira un componente software (Progetto) che viene infine programmato (Codice).
+
+\vspace{0.5cm} % Piccolo spazio prima del grafico
+
+% --- GRAFICO TIKZ DELLA COLLABORAZIONE OOA -> OOD -> OOP ---
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{immagine.png}
-    \caption{Esempio di diagramma dei casi d'uso di contesto.} % Didascalia
-    \label{fig:diagramma_contesto} % Etichetta per citare l'immagine nel testo
+    \begin{tikzpicture}[
+        box/.style={draw, thick, rounded corners, minimum width=3.5cm, minimum height=1.8cm, align=center, fill=blue!5},
+        arrow/.style={->, thick, >=stealth}
+        ]
+        
+        % Nodi (I tre blocchi)
+        \node[box] (ooa) at (0,0) {\textbf{OOA} \\ Analisi \\ \footnotesize \textit{Dominio / Mondo Reale}};
+        \node[box] (ood) at (5.5,0) {\textbf{OOD} \\ Progettazione \\ \footnotesize \textit{Classi Software}};
+        \node[box] (oop) at (11,0) {\textbf{OOP} \\ Programmazione \\ \footnotesize \textit{Codice (es. Java)}};
+        
+        % Frecce di collegamento
+        \draw[arrow] (ooa) -- node[above] {\footnotesize \textit{Ispira}} (ood);
+        \draw[arrow] (ood) -- node[above] {\footnotesize \textit{Implementa in}} (oop);
+        
+    \end{tikzpicture}
+    \vspace{0.3cm}
+    \caption{Flusso logico e transizione tra Analisi, Progettazione e Programmazione.}
+    \label{fig:ooa_ood_oop}
 \end{figure}
 
-\subsection*{Livelli di dettaglio dei casi d'uso}
+Un classico esempio per capire questa transizione è la rappresentazione di un "Dato":
+\begin{enumerate}
+    \item In \textbf{OOA}, il \textit{"Libro"} è un concetto astratto del dominio utente: sappiamo che ha un titolo e un autore.
+    \item In \textbf{OOD}, il \textit{"Libro"} diventa una classe software strutturata (\texttt{Book}) inserita in un Diagramma delle Classi UML, con l'assegnazione di specifici attributi privati e metodi pubblici (es. \texttt{getTitolo()}).
+    \item In \textbf{OOP}, la classe \texttt{Book} viene scritta materialmente sull'IDE: \texttt{public class Book \{ private String titolo; ... \}}.
+\end{enumerate}
+
+\section{Processi di Sviluppo del Software}
+
+Nella sezione precedente abbiamo visto che lo sviluppo si articola in fasi logiche come OOA, OOD e OOP. Tuttavia, per trasformare queste idee in un prodotto finito all'interno di un team, serve un'organizzazione rigorosa. Questa organizzazione prende il nome di \textbf{Processo di Sviluppo}.
+
+\subsection{Cos'è un Processo di Sviluppo?}
+Un processo di sviluppo del software è un insieme strutturato di attività, ruoli e prodotti (artefatti) necessari per costruire un sistema software. In sintesi, un processo definisce:
+\begin{itemize}
+    \item \textbf{Chi} (i ruoli: es. Analista, Sviluppatore, Tester)
+    \item fa \textbf{Che cosa} (gli artefatti: es. Documento dei requisiti, Codice Java, Diagrammi UML)
+    \item \textbf{Quando} (il flusso di lavoro e le scadenze temporali)
+    \item e \textbf{Come} (i metodi e le pratiche utilizzate)
+\end{itemize}
+...al fine di raggiungere un determinato obiettivo: rilasciare un software di qualità che soddisfi il cliente.
+
+\subsection{Le Attività Comuni (Il Ciclo di Vita)}
+Indipendentemente dal processo specifico scelto, lo sviluppo di un software attraversa sempre una serie di attività fondamentali. Ecco la linea temporale logica di queste fasi:
+
+\vspace{0.5cm}
+% --- LINEA TEMPORALE DELLE ATTIVITA' (TIKZ) ---
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        activity/.style={rectangle, draw, rounded corners, fill=green!10, text width=2cm, text centered, minimum height=1.2cm, thick},
+        arrow/.style={->, thick, >=stealth}
+        ]
+        
+        % Nodi
+        \node[activity] (req) {1. Studio Requisiti};
+        \node[activity, right of=req, xshift=0.5cm] (analisi) {2. Analisi \& Progetto (OOA/OOD)};
+        \node[activity, right of=analisi, xshift=0.5cm] (impl) {3. Sviluppo (OOP)};
+        \node[activity, right of=impl, xshift=0.5cm] (test) {4. Collaudo (Testing)};
+        \node[activity, right of=test, xshift=0.5cm] (rilascio) {5. Rilascio \& Manut.};
+        
+        % Frecce
+        \draw[arrow] (req) -- (analisi);
+        \draw[arrow] (analisi) -- (impl);
+        \draw[arrow] (impl) -- (test);
+        \draw[arrow] (test) -- (rilascio);
+        
+    \end{tikzpicture}
+    \caption{Le fasi universali del ciclo di vita del software.}
+    \label{fig:timeline_attivita}
+\end{figure}
+\vspace{0.3cm}
+Il \textit{quando} e in che \textit{ordine} eseguire queste attività determina il tipo di processo. Ne esistono principalmente due grandi famiglie: il modello a Cascata e i modelli Iterativi/Agili.
+
+\subsection{Il Modello a Cascata (Waterfall)}
+Il modello a cascata è l'approccio tradizionale. Prevede che le fasi del ciclo di vita vengano eseguite in modo \textbf{strettamente sequenziale}: non si passa alla fase successiva finché la precedente non è completamente conclusa e documentata.
+
+% --- GRAFICO A CASCATA ---
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        box/.style={rectangle, draw, fill=blue!10, text width=2.5cm, text centered, rounded corners, minimum height=0.8cm, thick},
+        arrow/.style={->, thick, >=stealth}
+        ]
+        \node[box] (req) at (0,0) {Requisiti};
+        \node[box] (an) at (2,-1) {Progettazione};
+        \node[box] (sv) at (4,-2) {Sviluppo};
+        \node[box] (te) at (6,-3) {Testing};
+        
+        \draw[arrow] (req) |- (an);
+        \draw[arrow] (an) |- (sv);
+        \draw[arrow] (sv) |- (te);
+    \end{tikzpicture}
+    \vspace{0.2cm}
+    \caption{Il flusso sequenziale del modello a cascata.}
+\end{figure}
+
+\textbf{Vantaggi e Rischi del Modello a Cascata:}
+\begin{itemize}
+    \item \textbf{Vantaggi:} Semplice da capire e gestire. Ottimo se i requisiti sono perfettamente chiari, stabili e non cambieranno mai (es. software per apparecchiature mediche o aerospaziali).
+    \item \textbf{Rischi (Il problema temporale):} Il rischio viene scoperto \textit{troppo tardi}. Il software funzionante si vede solo alla fine. Se i requisiti iniziali erano sbagliati o il cliente cambia idea, scoprirlo nella fase di "Testing" rende le modifiche difficilissime e costosissime.
+\end{itemize}
+
+\subsection{I Processi Iterativi e Incrementali}
+Per superare i limiti della cascata, lo sviluppo moderno viene diviso in \textbf{iterazioni} brevi (dette \textit{timebox}, es. 2-4 settimane). Ogni iterazione è un "mini-progetto" che attraversa tutte le fasi e produce un pezzetto di software funzionante (\textit{incremento}).
+
+% --- GRAFICO ITERATIVO ---
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        box/.style={rectangle, draw, fill=orange!10, text width=2.2cm, text centered, rounded corners, minimum height=0.8cm, thick},
+        arrow/.style={->, thick, >=stealth}
+        ]
+        \node[box] (req) at (0, 1.8) {Requisiti};
+        \node[box] (prog) at (2.5, 0) {Progettazione};
+        \node[box] (svil) at (0, -1.8) {Sviluppo};
+        \node[box] (test) at (-2.5, 0) {Testing};
+        
+        \draw[arrow] (req) to[bend left] (prog);
+        \draw[arrow] (prog) to[bend left] (svil);
+        \draw[arrow] (svil) to[bend left] (test);
+        \draw[arrow] (test) to[bend left] node[midway, left=0.2cm] {\textbf{Feedback}} (req);
+    \end{tikzpicture}
+    \vspace{0.2cm}
+    \caption{Il ciclo continuo di un processo iterativo.}
+\end{figure}
+
+\textbf{Vantaggi e Rischi dei Processi Iterativi:}
+\begin{itemize}
+    \item \textbf{Vantaggi (Gestione del Rischio):} Il rischio si affronta subito. Mostrando frequentemente piccoli incrementi al cliente, si ottengono feedback rapidi, rendendo la progettazione più flessibile 
+    \item \textbf{Rischi:} Richiede un team molto affiatato, una forte comunicazione e un'architettura di base solida, altrimenti le continue modifiche possono far collassare il codice (fenomeno del \textit{codice spaghetto}).
+\end{itemize}
+
+\subsection{Il Processo Unificato (Unified Process - UP)}
+Il Processo Unificato (o RUP) è il framework iterativo di riferimento per l'approccio a oggetti e l'UML. Si basa su tre principi fondamentali:
+\begin{enumerate}
+    \item \textbf{Guidato dai Casi d'Uso:} I requisiti guidano l'intero ciclo (progettazione, test, ecc.).
+    \item \textbf{Centrato sull'Architettura:} L'architettura software robusta viene stabilita nelle primissime iterazioni.
+    \item \textbf{Guidato dai Rischi:} Si affrontano subito i problemi tecnici o di business più grandi.
+\end{enumerate}
+
+Le sue quattro macro-fasi temporali sono: \textbf{Ideazione} (studio fattibilità), \textbf{Elaborazione} (architettura stabile e analisi rischi), \textbf{Costruzione} (sviluppo intensivo) e \textbf{Transizione} (rilascio agli utenti).
+
+\subsection{Le Metodologie Agili}
+I metodi Agili (es. \textit{Scrum}) portano all'estremo il concetto iterativo. L'obiettivo è minimizzare la documentazione pesante a favore del codice funzionante e della flessibilità, rilasciando software in cicli brevissimi (chiamati \textit{Sprint}).
+
+% --- GRAFICO DEL CICLO AGILE (SCRUM) ---
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2cm,
+        box/.style={rectangle, draw, rounded corners, text width=2.5cm, text centered, minimum height=1.2cm, thick, fill=purple!5},
+        arrow/.style={->, thick, >=stealth}
+    ]
+    
+    % Nodi
+    \node[box] (requisiti) {Lista Requisiti \\ \footnotesize \textit{(Backlog)}};
+    \node[box, fill=blue!5, right of=requisiti, xshift=2.5cm] (sprint) {\textbf{Sprint} \\ \footnotesize \textit{(Iterazione 1-4 sett.)}};
+    \node[box, fill=green!5, right of=sprint, xshift=2.5cm] (software) {Software \\ Funzionante};
+    
+    % Frecce base
+    \draw[arrow] (requisiti) -- (sprint);
+    \draw[arrow] (sprint) -- (software);
+    
+    % Freccia circolare sullo sprint per indicare il ciclo di lavoro
+    \draw[->, thick] (sprint.north) to[out=150,in=30, looseness=4] node[above] {\footnotesize \textit{Sviluppo Quotidiano}} (sprint.north);
+    
+    % Freccia di feedback che torna indietro
+    \draw[arrow, dashed] (software.south) -- ++(0,-1) -| node[pos=0.25, below] {\textbf{Feedback del Cliente} (Nuovi Requisiti/Modifiche)} (requisiti.south);
+    
+    \end{tikzpicture}
+    \vspace{0.2cm}
+    \caption{Il ciclo di sviluppo tipico di una metodologia Agile.}
+\end{figure}
+
+Questa flessibilità è dovuta al fatto che viene spostato il focus del lavoro:
+
+\vspace{0.4cm}
+% --- TABELLA DEL MANIFESTO AGILE ---
+\begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Dà un po' respiro e spazio alle righe
+    \begin{tabular}{@{} p{6cm} c p{6cm} @{}}
+        \hline
+        \textbf{In Agile si valorizza di più...} & & \textbf{...rispetto a (approccio tradizionale)} \\
+        \hline
+        \textbf{Gli individui e le interazioni} & $\rightarrow$ & I processi formali e gli strumenti \\
+        \textbf{Il software funzionante} & $\rightarrow$ & La documentazione esaustiva \\
+        \textbf{La collaborazione col cliente} & $\rightarrow$ & La negoziazione rigida dei contratti \\
+        \textbf{Rispondere al cambiamento} & $\rightarrow$ & Seguire passivamente un piano \\
+        \hline
+    \end{tabular}
+    \vspace{0.2cm}
+    \caption{I 4 pilastri del Manifesto Agile a confronto con le priorità tradizionali.}
+\end{table}
+
+\textit{Nota bene:} Le attività a \textbf{destra} non spariscono, ma hanno semplicemente una priorità \textbf{minore}.
+
+\section{Ingegneria dei Requisiti e Casi d'Uso}
+
+\subsection{Cos'è un Requisito?}
+Un \textbf{requisito} è una condizione o una capacità a cui il sistema deve essere conforme e che consente di raggiungere un obiettivo. In altre parole rappresenta \textit{ciò che il sistema deve fare}.
+
+\textbf{L'analisi dei requisiti} è quindi il processo di indagine, scoperta e documentazione di questi bisogni.
+
+\subsubsection*{Le domande per trovare i requisiti}
+\begin{itemize}
+    \item \textbf{Chi} userà direttamente il sistema? \textit{(Aiuta a trovare gli Attori)}.
+    \item \textbf{Qual è} l'obiettivo aziendale principale o il problema da risolvere?
+    \item \textbf{Cosa} deve poter fare l'utente all'interno del sistema? \textit{(Aiuta a trovare i Casi d'Uso)}.
+    \item \textbf{Quali informazioni} o dati devono essere memorizzati, elaborati o prodotti?
+    \item \textbf{Ci sono vincoli} tecnici, legali, di sicurezza o di prestazioni?
+    \item \textbf{Quali sistemi esterni} interagiranno con il nostro?
+\end{itemize}
+
+\subsubsection*{I Requisiti Evolutivi}
+Nei processi di sviluppo (come UP e Agile), per l'analisi dei requisiti si adotta un approccio basato sui \textbf{Requisiti Evolutivi}: Utenti cambieranno idea nel tempo man mano che vedranno il software funzionare. I requisiti vengono quindi scoperti, raffinati e modificati iterazione dopo iterazione attraverso i feedback.
+
+\subsection{Tipi di Requisiti}
+I requisiti si dividono in due gruppi: \textbf{Funzionali} e \textbf{Non Funzionali}(chiamati anche qualità, attribuiti di qualità):
+
+% --- GRAFICO TIKZ FURPS+ ---
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        box/.style={rectangle, draw, thick, rounded corners, minimum width=4cm, minimum height=1.2cm, align=center},
+        funz/.style={box, fill=blue!10},
+        nonfunz/.style={box, fill=red!10}
+    ]
+    % Titoli Colonne
+    \node at (0, 2) {\textbf{REQUISITI FUNZIONALI}};
+    \node at (6, 2) {\textbf{REQUISITI NON FUNZIONALI}};
+    \node at (0, 1.5) {\footnotesize \textit{Cosa fa il sistema}};
+    \node at (6, 1.5) {\footnotesize \textit{Come lo fa (Qualità e Vincoli)}};
+    
+    % Linea divisoria
+    \draw[thick, dashed, gray] (3, 2.3) -- (3, -4);
+    
+    % Box Funzionali (F)
+    \node[funz] (f) at (0, 0) {\textbf{F} - Functional \\ \footnotesize (Funzionalità, Sicurezza)};
+    
+    % Box Non Funzionali (URPS+)
+    \node[nonfunz] (u) at (6, 0) {\textbf{U} - Usability \\ \footnotesize (Usabilità, Estetica)};
+    \node[nonfunz] (r) at (6, -1.5) {\textbf{R} - Reliability \\ \footnotesize (Affidabilità, Tolleranza guasti)};
+    \node[nonfunz] (p) at (6, -3) {\textbf{P} - Performance \\ \footnotesize (Prestazioni, Tempi di risposta)};
+    
+    % Altri
+    \node at (6, -4.2) {\textbf{S} - Supportability \textit{(Manutenibilità)}};
+    \node at (6, -4.8) {\textbf{+} - Plus \textit{(Vincoli, Leggi, Interfacce)}};
+    
+    \end{tikzpicture}
+    \vspace{0.2cm}
+    \caption{Il modello FURPS+ per la classificazione dei requisiti del sistema.}
+\end{figure}
+
+\subsection{I Casi d'Uso}
+Un \textbf{Caso d'Uso} è una storia scritta che descrive l'interazione tra attori e il sistema che deve essere realizzato. Sono lo strumento principale per strutturare e documentare i \textbf{requisiti funzionali}.
+
+% --- INIZIO INSERIMENTO IMMAGINE (Diagramma UML) ---
+% --- DIAGRAMMA DEI CASI D'USO TIKZ (MIGLIORATO) ---
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        % Stili grafici migliorati e professionali
+        usecase/.style={rectangle, rounded corners=20pt, draw=blue!80!black, thick, minimum width=3.8cm, minimum height=1.3cm, align=center, fill=blue!5, font=\small},
+        actor/.style={rectangle, draw=orange!80!black, thick, rounded corners=3pt, minimum width=2.8cm, minimum height=1.2cm, align=center, fill=orange!5, font=\footnotesize},
+        system/.style={rectangle, draw=gray!80, thick, rounded corners=5pt, minimum width=6.5cm, minimum height=5cm, fill=gray!5}
+    ]
+    
+    % Confine del Sistema (System Boundary)
+    \node[system] (sys) at (0,0) {};
+    \node[anchor=north, font=\bfseries\small, text=black!70, yshift=-0.2cm] at (sys.north) {Sistema: Punto Vendita (POS)};
+    
+    % Casi d'Uso (dentro il sistema)
+    \node[usecase] (uc_vendita) at (0, 0.8) {Elaborare Vendita};
+    \node[usecase] (uc_resi) at (0, -1.2) {Gestire Resi};
+    
+    % Attori (fuori dal sistema)
+% Sinistra: Cassiere (Primario) e Cliente (Finale)
+    \node[actor] (cassiere) at (-5, 1.2) {Cassiere \\ \textit{(Attore Primario)}};
+    \node[actor] (cliente) at (-5, -1.2) {Cliente \\ \textit{(Attore Finale)}};
+    
+    % Destra: Banca (Di Supporto)
+    \node[actor] (banca) at (5, 0.8) {Sistema Bancario \\ \textit{(Di Supporto)}};
+    
+    % Linee di interazione (Associazioni UML)
+    \draw[-, thick, draw=black!60] (cassiere.east) -- (uc_vendita.west);
+    \draw[-, thick, draw=black!60] (cassiere.east) -- (uc_resi.west);
+    
+    % Il cliente ha interesse nella vendita, a volte interagisce direttamente (es. bancomat) o tramite il cassiere
+    \draw[-, thick, draw=black!60] (cliente.east) -- (uc_vendita.west); 
+    
+    \draw[-, thick, draw=black!60] (uc_vendita.east) -- (banca.west);
+    
+    \end{tikzpicture}
+    \vspace{0.2cm}
+    \caption{Diagramma dei Casi d'Uso: interazioni tra attori (primario, finale, di supporto) e il sistema.}
+    \label{fig:diagramma_casi_uso_tikz}
+\end{figure}
+% --- FINE DIAGRAMMA TIKZ ---
+
+\subsubsection*{Gli attori e l'esito degli obiettivi}
+
+Un \textbf{attore} è chiunque (o qualsiasi cosa) dotato di comportamento che interagisce con il sistema.
+
+\begin{itemize}
+    \item \textbf{Attore primario:} avvia l'interazione con il sistema per raggiungere un proprio obiettivo aziendale (es. \textit{il cassiere}).
+
+    \item \textbf{Attore finale:} è il soggetto che beneficia del risultato del caso d'uso, spesso coincide con l'attore primario.(es. \textit{l'acquirente}).
+
+    \item \textbf{Attore di supporto (secondario):} offre un servizio di assistenza al sistema in esame(es. \textit{il server bancario per l'autorizzazione delle carte di credito}).
+
+    \item \textbf{Attore fuori scena :} non interagisce direttamente con il sistema, ma ha interessi nel suo comportamento(es. \textit{l'Agenzia delle Entrate}).
+\end{itemize}
+
+
+% --- INIZIO LAYOUT AFFIANCATO (MINIPAGE) ---
 \noindent
-I casi d'uso possono essere scritti con diversi livelli di dettaglio:
-\begin{itemize}
-    \item \textbf{Breve:} Un solo paragrafo per lo scenario di successo.
-    \item \textbf{Informale:} Scenario principale e qualche alternativa in formato testo discorsivo.
-    \item \textbf{Dettagliato:} Il formato più completo, diviso in sezioni rigorose.
-\end{itemize}
+% COLONNA SINISTRA: Le Spiegazioni
+\begin{minipage}[t]{0.48\textwidth}
+    \vspace{0pt} % Serve per allineare in alto le due colonne
+    \textbf{Le Sezioni Fondamentali:}
+    \begin{itemize}[leftmargin=*, label=$\triangleright$]
+        \item \textbf{Preambolo:} Definisce il nome del caso d'uso e chi è l'Attore Primario che lo innesca.
+        \item \textbf{Stakeholder e Interessi:} È la sezione più importante per l'analisi. Se il sistema non soddisfa questi interessi, il caso d'uso fallisce.
+        \item \textbf{Pre e Post-condizioni:} Le \textit{Pre-condizioni} indicano cosa deve essere garantito prima di iniziare. Le \textit{Garanzie di Successo} (Post-condizioni) indicano cosa è cambiato nel sistema alla fine.
+        \item \textbf{Scenario Principale:} I passi sequenziali in cui tutto va bene e l'obiettivo viene raggiunto.
+        \item \textbf{Estensioni:} Il vero cuore del lavoro dell'analista. Cosa succede se la rete cade? Se l'utente sbaglia password? Qui si gestiscono tutte le deviazioni.
+    \end{itemize}
+    
+    \vspace{0.3cm}
+    \textbf{Regole di Stile:}
+    \begin{itemize}[leftmargin=*]
+        \item \textbf{Scatola Nera:} Non citare database o codice.
+        \item \textbf{Senza UI:} Non citare bottoni o menu, resta essenziale.
+    \end{itemize}
+\end{minipage}%
+\hfill% Spazio elastico tra le due colonne
+% COLONNA DESTRA: Lo Schema Visivo
+\begin{minipage}[t]{0.48\textwidth}
+    \vspace{0pt} % Serve per allineare in alto le due colonne
+    % Disegniamo una tabella che simula il foglio del Caso d'Uso
+    \begin{tabular}{|p{0.95\linewidth}|}
+        \hline
+        \textbf{Caso d'Uso:} Elaborare Vendita \\
+        \textbf{Attore Primario:} Cassiere \\
+        \hline
+        \textbf{Stakeholder e Interessi:} \\
+        - \textit{Cassiere:} Vuole rapidità e zero errori. \\
+        - \textit{Fisco:} Vuole l'IVA calcolata correttamente. \\
+        \hline
+        \textbf{Pre-condizioni:} Il Cassiere è autenticato e la cassa è aperta. \\
+        \textbf{Garanzie di Successo:} Scontrino generato, inventario aggiornato. \\
+        \hline
+        \textbf{Scenario Principale di Successo:} \\
+        1. Il Cassiere inserisce l'ID articolo. \\
+        2. Il Sistema calcola totale e tasse. \\
+        3. Il Cassiere riceve il pagamento in contanti. \\
+        4. Il Sistema registra la vendita. \\
+        \hline
+        \textbf{Estensioni (Flussi Alternativi):} \\
+        \textit{1a. ID articolo non valido:} \\
+        \hspace{0.3cm} 1. Il Sistema segnala l'errore. \\
+        \hspace{0.3cm} 2. Il Cassiere reinserisce l'ID. \\
+        \textit{3a. Pagamento con Carta di Credito:} \\
+        \hspace{0.3cm} 1. Il Cassiere seleziona "Carta". \\
+        \hspace{0.3cm} 2. Il Sistema contatta la Banca... \\
+        \hline
+    \end{tabular}
+\end{minipage}
+% --- FINE LAYOUT AFFIANCATO ---
 
 
-Esempio di studio di caso per lo studio:
+\section{Il Modello di Dominio}
+% Analisi orientata agli oggetti (slide aps07, aps08)
 
-
-\section{Gli Attori}
-Un attore è qualcuno o qualcosa dotato di comportamento che interagisce con il sistema.
-\begin{itemize}
-    \item \textbf{Attore primario:} Usa il sistema per raggiungere un obiettivo.
-    \item \textbf{Attore finale:} Vuole raggiungere l'obiettivo, ma non necessariamente usa il sistema di persona.
-    \item \textbf{Attore di supporto:} Offre servizi al sistema.
-    \item \textbf{Attore fuori scena:} Ha interessi nel comportamento del sistema (es. fisco).
-\end{itemize}
-
-\section{Anatomia del Formato Dettagliato}
-Un caso d'uso dettagliato comprende tipicamente:
-\begin{itemize}
-    \item \textbf{Stakeholder e Interessi:} Chi vuole cosa dal sistema.
-    \item \textbf{Pre-condizioni:} Cosa deve essere vero prima di iniziare.
-    \item \textbf{Scenario principale di successo:} Il percorso senza errori.
-    \item \textbf{Estensioni:} La gestione di tutti i casi alternativi e degli errori.
-    \item \textbf{Requisiti speciali:} Requisiti non funzionali correlati.
-\end{itemize}
-
-\section{Stile di Scrittura}
-\begin{itemize}
-    \item \textbf{Essenziale:} Si ignorano i dettagli della UI (es. "Il sistema autentica l'utente", non "L'utente clicca sul bottone login").
-    \item \textbf{Scatola Nera:} Si descrive cosa fa il sistema, non come è implementato internamente (es. si omette il database o l'SQL).
-\end{itemize}
-
+\section{Progettazione Orientata agli Oggetti}
+% Diagrammi di sequenza, design pattern, assegnazione di responsabilità (GRASP) (slide aps09, aps10)
 \end{document}
