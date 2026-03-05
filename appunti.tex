@@ -1,26 +1,50 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[10pt, a4paper]{article}
 
 % Pacchetti base per l'italiano e la formattazione
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+
 
 % Titolo e Autore
 \title{Schematizzazione: Casi d'Uso (Use Cases)}
-\author{Appunti basati sul materiale di Luca Cabibbo}
+\author{Appunti basati sul materiale di Luca Cabibbo e sul libro }
 \date{\today}
 
 \begin{document}
 
 \maketitle
 
-\section{Introduzione ai Casi d'Uso}
-I casi d'uso sono storie scritte che descrivono il funzionamento del sistema che deve essere realizzato. Sono utili per:
+\section{Casi d'Uso}
+I casi d'uso sono storie scritte che descrivono il funzionamento del sistema che deve essere realizzato e come viene utilizzato dagli utenti (Attori). Sono utili per:
 \begin{itemize}
     \item Identificare e registrare i requisiti funzionali.
     \item Favorire il coinvolgimento degli utenti grazie alla loro semplicità.
 \end{itemize}
+
+% --- INIZIO INSERIMENTO IMMAGINE ---
+\begin{figure}[h] % [h] suggerisce a LaTeX di mettere l'immagine "qui" (here)
+    \centering
+    \includegraphics[width=0.8\textwidth]{immagine.png}
+    \caption{Esempio di diagramma dei casi d'uso di contesto.} % Didascalia
+    \label{fig:diagramma_contesto} % Etichetta per citare l'immagine nel testo
+\end{figure}
+
+\subsection*{Livelli di dettaglio dei casi d'uso}
+\noindent
+I casi d'uso possono essere scritti con diversi livelli di dettaglio:
+\begin{itemize}
+    \item \textbf{Breve:} Un solo paragrafo per lo scenario di successo.
+    \item \textbf{Informale:} Scenario principale e qualche alternativa in formato testo discorsivo.
+    \item \textbf{Dettagliato:} Il formato più completo, diviso in sezioni rigorose.
+\end{itemize}
+
+
+Esempio di studio di caso per lo studio:
+
 
 \section{Gli Attori}
 Un attore è qualcuno o qualcosa dotato di comportamento che interagisce con il sistema.
@@ -29,14 +53,6 @@ Un attore è qualcuno o qualcosa dotato di comportamento che interagisce con il 
     \item \textbf{Attore finale:} Vuole raggiungere l'obiettivo, ma non necessariamente usa il sistema di persona.
     \item \textbf{Attore di supporto:} Offre servizi al sistema.
     \item \textbf{Attore fuori scena:} Ha interessi nel comportamento del sistema (es. fisco).
-\end{itemize}
-
-\section{Formati dei Casi d'Uso}
-I casi d'uso possono essere scritti con diversi livelli di dettaglio:
-\begin{itemize}
-    \item \textbf{Breve:} Un solo paragrafo per lo scenario di successo.
-    \item \textbf{Informale:} Scenario principale e qualche alternativa in formato testo discorsivo.
-    \item \textbf{Dettagliato:} Il formato più completo, diviso in sezioni rigorose.
 \end{itemize}
 
 \section{Anatomia del Formato Dettagliato}
